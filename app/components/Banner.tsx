@@ -4,6 +4,10 @@ import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 import Icon, { IconName } from "./social-icon";
 
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollToPlugin);
+
 interface SocialType {
   name: IconName;
   url: string;
@@ -14,6 +18,7 @@ const Banner = () => {
   const topTextWrapperRef = useRef<null>(null);
   const bottomTextWrapperRef = useRef<null>(null);
   const prevId = useRef(0);
+  const bottomSectionRef = useRef<HTMLDivElement | null>(null);
 
   const bannerContents = [
     {
@@ -122,6 +127,14 @@ const Banner = () => {
     return () => ctx.revert();
   }, [bannerId]);
 
+  const scrollBottomWithGsap = () => {
+    gsap.to(window, {
+      duration: 1,
+      scrollTo: bottomSectionRef.current!,
+      ease: "power2.out",
+    });
+  };
+
   return (
     <section className="relative pt-48 pb-8 lg:pb-20  w-full ">
       <div className="h-200 bg-[#2B2F31] absolute left-0 right-0 top-0  z-0"></div>
@@ -191,57 +204,49 @@ const Banner = () => {
             </div>
           </div>
           <div className="grid lg:grid-cols-3 h-full w-full lg:mb-12 lg:gap-12">
-            <div className="relative overflow-hidden h-[500px]   lg:col-span-2">
+            <div className="relative overflow-hidden   lg:col-span-2">
+              {/* <div className="relative overflow-hidden h-[500px]   lg:col-span-2"> */}
               <div
                 className="flex transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${bannerId * 100}%)` }}
               >
-                {bannerContents.map((content, i) => (
+                {bannerContents.map((content) => (
                   <div
                     key={content.id}
-                    className="relative w-full h-[450px] grid shrink-0"
+                    className="relative w-full  h-full flex flex-col gap-4 lg:inline-block  shrink-0"
                   >
-                    {content.condition === "img" ? (
-                      <Image
-                        src={content.link}
-                        alt={content.name}
-                        className="object-cover"
-                        fill
-                      />
-                    ) : (
-                      <video
-                        src={content.link}
-                        playsInline
-                        muted
-                        autoPlay
-                        className="w-full h-auto object-cover"
-                      />
-                    )}
-
-                    {/* <div
+                    <div className="relative w-full aspect-video">
+                      {content.condition === "img" ? (
+                        <Image
+                          src={content.link}
+                          alt={content.name}
+                          className="w-full h-full object-cover"
+                          // fill
+                          width={1920}
+                          height={1080}
+                        />
+                      ) : (
+                        <video
+                          src={content.link}
+                          playsInline
+                          muted
+                          autoPlay
+                          className="w-full h-full  object-cover"
+                        />
+                      )}
+                    </div>
+                    <div
                       key={content.id}
-                      className="justify-self-end py-4 flex flex-col gap-2 justify-center md:hidden"
+                      className=" py-4 flex flex-col gap-1 justify-center md:hidden text-black"
                     >
-                      <p>{content.texts[0]}</p>
+                      <p className="font-bold">{content.texts[0]}</p>
                       <p>{content.texts[1]}</p>
-                    </div> */}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            {/* <div className=" text-black overflow-hidden justify-start   h-[60px] grid lg:hidden items-start">
-              <div ref={topTextWrapperRef} className="h-fit">
-                {bannerContents.map((content) => (
-                  <div
-                    key={content.id}
-                    className=" h-[60px] flex flex-col gap-2 justify-center "
-                  >
-                    <p>{content.texts[0]}</p>
-                    <p>{content.texts[1]}</p>
-                  </div>
-                ))}
-              </div>
-            </div> */}
+
             <div className="hidden lg:relative lg:inline-block  lg:col-span-1   mx-0 my-auto">
               <div className="absolute -top-24 left-0 flex gap-2 items-center">
                 <Icon name={"arrow-left"} className="text-white w-5 h-5" />
@@ -255,7 +260,10 @@ const Banner = () => {
                     className="text-black w-5 h-5"
                   />
                 ))}
-                <button className="border-black cursor-pointer border  rounded-full w-12 h-12 flex justify-center items-center">
+                <button
+                  onClick={scrollBottomWithGsap}
+                  className="border-black cursor-pointer border  rounded-full w-12 h-12 flex justify-center items-center"
+                >
                   <span
                     className={`rounded-full bg-black cursor-pointer
                        p-1 text-base inline-block`}
@@ -265,9 +273,9 @@ const Banner = () => {
             </div>
           </div>
 
-          <div className="hidden lg:grid  h-full w-full">
+          <div ref={bottomSectionRef} className="hidden lg:grid  h-full w-full">
             <div className="relative   gap-12 grid grid-cols-3">
-              <div className=" h-[600px] overflow-hidden col-start-2 col-end-3">
+              <div className=" overflow-hidden col-start-2 col-end-3">
                 <div
                   className="flex transition-transform duration-700 ease-in-out "
                   style={{ transform: `translateX(-${bannerId * 100}%)` }}
@@ -275,19 +283,20 @@ const Banner = () => {
                   {bannerContents.map((content) => (
                     <div
                       key={content.id}
-                      className="relative w-full h-[600px] shrink-0"
+                      className="relative w-full aspect-[3/4] shrink-0"
                     >
                       <Image
                         src={content.otherSlider.sliderTwoLink}
                         alt={content.name}
-                        className="object-cover"
-                        fill
+                        className="w-full h-full object-cover"
+                        width={800}
+                        height={1000}
                       />
                     </div>
                   ))}
                 </div>
               </div>
-              <div className=" h-[600px] overflow-hidden col-start-3 col-end-4">
+              <div className="  overflow-hidden col-start-3 col-end-4">
                 <div
                   className="flex transition-transform duration-700 ease-in-out "
                   style={{ transform: `translateX(-${bannerId * 100}%)` }}
@@ -295,14 +304,15 @@ const Banner = () => {
                   {bannerContents.map((content, i) => (
                     <div
                       key={content.id}
-                      className="relative w-full h-[600px] shrink-0"
+                      className="relative w-full aspect-[3/4] shrink-0"
                     >
                       {content.otherSlider.sliderThreeCondition === "img" ? (
                         <Image
                           src={content.otherSlider.sliderThreeLink}
                           alt={content.name}
-                          className="object-cover"
-                          fill
+                          className="w-full h-full object-cover"
+                          width={800}
+                          height={1000}
                         />
                       ) : (
                         <video
@@ -310,7 +320,7 @@ const Banner = () => {
                           playsInline
                           muted
                           autoPlay
-                          className="w-full h-auto object-cover"
+                          className="w-full h-full object-cover"
                         />
                       )}
                     </div>
@@ -341,14 +351,14 @@ const Banner = () => {
                 onClick={nextHandler}
                 className={`border ${
                   bannerId === bannerContents.length - 1
-                    ? "border-white/20 pointer-events-none "
+                    ? "border-gray-400 pointer-events-none "
                     : "border-black cursor-pointer"
                 }  rounded-full w-12 h-12 flex justify-center items-center`}
               >
                 <span
                   className={`rounded-full ${
                     bannerId === bannerContents.length - 1
-                      ? "bg-white/20 pointer-events-none "
+                      ? "bg-gray-400 pointer-events-none "
                       : "bg-black cursor-pointer"
                   }   p-1 text-base inline-block`}
                 ></span>
