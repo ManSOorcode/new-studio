@@ -105,19 +105,7 @@ const Banner = () => {
 
     const rowHeight = 30;
 
-    console.log(rowHeight, prevId.current, bannerId, -bannerId * rowHeight);
-
     const ctx = gsap.context(() => {
-      // gsap.set(wrapper, { y: -prevId.current * rowHeight });
-      // gsap.to(
-      //   wrapper,
-
-      //   {
-      //     y: -bannerId * rowHeight,
-      //     duration: 0.8,
-      //     ease: "power3.inOut",
-      //   }
-      // );
       gsap.fromTo(
         [topWrapper, bottomWrapper],
         { y: -prevId.current * rowHeight },
@@ -230,33 +218,30 @@ const Banner = () => {
                       />
                     )}
 
-                    <div
+                    {/* <div
                       key={content.id}
                       className="justify-self-end py-4 flex flex-col gap-2 justify-center md:hidden"
                     >
                       <p>{content.texts[0]}</p>
                       <p>{content.texts[1]}</p>
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
             </div>
-            <div className=" text-black overflow-hidden justify-start   h-[60px] grid lg:hidden items-start">
+            {/* <div className=" text-black overflow-hidden justify-start   h-[60px] grid lg:hidden items-start">
               <div ref={topTextWrapperRef} className="h-fit">
-                {bannerContents.map((content) => {
-                  console.log(content, "from text");
-                  return (
-                    <div
-                      key={content.id}
-                      className=" h-[60px] flex flex-col gap-2 justify-center "
-                    >
-                      <p>{content.texts[0]}</p>
-                      <p>{content.texts[1]}</p>
-                    </div>
-                  );
-                })}
+                {bannerContents.map((content) => (
+                  <div
+                    key={content.id}
+                    className=" h-[60px] flex flex-col gap-2 justify-center "
+                  >
+                    <p>{content.texts[0]}</p>
+                    <p>{content.texts[1]}</p>
+                  </div>
+                ))}
               </div>
-            </div>
+            </div> */}
             <div className="hidden lg:relative lg:inline-block  lg:col-span-1   mx-0 my-auto">
               <div className="absolute -top-24 left-0 flex gap-2 items-center">
                 <Icon name={"arrow-left"} className="text-white w-5 h-5" />
