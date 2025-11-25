@@ -140,7 +140,6 @@ const Banner = () => {
       <div className="h-200 bg-[#2B2F31] absolute left-0 right-0 top-0  z-0"></div>
 
       <div className=" mx-auto max-w-7xl  relative flex flex-col gap-24 px-4 sm:px-6">
-        {/* banner text */}
         <div className="  text-right relative  ">
           <h1 className="text-white  leading-16   sm:leading-20 lg:leading-24   xl:leading-28 font-poppins  indent-[200px] tracking-tight text-5xl sm:text-6xl lg:text-[5rem] xl:text-8xl font-semibold  z-[2]">
             We craft identity,
@@ -205,7 +204,6 @@ const Banner = () => {
           </div>
           <div className="grid lg:grid-cols-3 h-full w-full lg:mb-12 lg:gap-12">
             <div className="relative overflow-hidden   lg:col-span-2">
-              {/* <div className="relative overflow-hidden h-[500px]   lg:col-span-2"> */}
               <div
                 className="flex transition-transform duration-700 ease-in-out"
                 style={{ transform: `translateX(-${bannerId * 100}%)` }}
@@ -221,7 +219,6 @@ const Banner = () => {
                           src={content.link}
                           alt={content.name}
                           className="w-full h-full object-cover"
-                          // fill
                           width={1920}
                           height={1080}
                         />
