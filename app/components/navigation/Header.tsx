@@ -11,7 +11,7 @@ const Header = () => {
   };
   return (
     <header className=" bg-[#2B2F31] absolute top-0 left-0 right-0 py-14 lg:py-20 z-10 px-6">
-      <nav className="container font-sans w-full  mx-auto flex items-center justify-between  ">
+      <nav className="max-w-7xl font-sans w-full  mx-auto flex items-center justify-between  ">
         <div className="flex items-center"></div>
 
         <ul className="hidden items-center gap-32   lg:flex text-white text-md font-medium">

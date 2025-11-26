@@ -3,8 +3,9 @@ import Banner from "./components/Banner";
 import Client from "./components/Client";
 
 import Footer from "./components/Footer";
+
 import Header from "./components/navigation/Header";
-import ServicesSection from "./components/Services";
+import ServicesSection from "./components/StudioServices";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <main className="   w-full ">
         <Banner />
         <About />
+
         <ServicesSection />
         <Client />
       </main>
