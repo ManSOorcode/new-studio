@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,7 +19,7 @@ const Footer = () => {
     { name: "WhatsApp", url: "#", icon: "whatsapp" },
   ];
 
-  useEffect(() => {
+  useGSAP(() => {
     if (titleRef.current) {
       gsap.fromTo(
         titleRef.current,
@@ -43,12 +44,12 @@ const Footer = () => {
       ref={footerRef}
       className="bg-black text-white pt-14 lg:pt-20 xl:pt-24 2xl:pt-40 "
     >
-      <div className="container mx-auto px-6 max-w-7xl">
+      <div className=" mx-auto px-6 max-w-7xl">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20 py-16 lg:py-20 xl:py-24 2xl:py-32">
           <div className="flex-1">
             <h2
               ref={titleRef}
-              className="text-8xl lg:text-9xl  font-poppins  xl:text-[12rem] 2xl:text-[14rem] font-bold leading-none mb-12 lg:mb-16"
+              className="text-8xl lg:text-9xl cursor-hover-target  font-poppins  xl:text-[12rem] 2xl:text-[14rem] font-bold leading-none mb-12 lg:mb-16"
             >
               SAY HI!
             </h2>

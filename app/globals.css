@@ -3,6 +3,7 @@
 :root {
   /* --background: #ffffff; */
   --foreground: #171717;
+  --bg: #121212;
 }
 
 @theme inline {
@@ -27,16 +28,3 @@ body {
   color: var(--foreground);
   /* font-family: Arial, Helvetica, sans-serif; */
 }
-
-/* .heading-top {
-  clip-path: circle(0px at 0px 0px); 
-}
-
-.mask-heading {
-  position: relative;
-  display: inline-block;
-}
-
-.heading-bottom {
-  visibility: visible;
-} */

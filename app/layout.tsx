@@ -4,6 +4,8 @@ import "./globals.css";
 
 import { Poppins } from "next/font/google";
 
+import GlobalCursor from "./components/GlobalCursor";
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -40,6 +42,69 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable}  ${poppins.variable} ${inter.variable} antialiased`}
       >
+        <div className="pointer-events-none  absolute inset-0 z-[9999]  h-full w-full">
+          <div
+            id="global-layer"
+            className="relative opacity-0 min-h-screen"
+            style={{
+              clipPath: "circle(0px at 0px 0px)",
+            }}
+          >
+            <header className=" absolute top-0 left-0 right-0  py-14 lg:py-20 z-10 px-6">
+              <nav className="max-w-7xl font-sans w-full  mx-auto flex items-center justify-between  ">
+                <div className="flex items-center"></div>
+
+                <ul className="hidden items-center gap-32   lg:flex text-white text-md font-medium">
+                  <li className="cursor-pointer hover:opacity-70"></li>
+                  <li className="cursor-pointer hover:opacity-70"></li>
+                  <li className="cursor-pointer hover:opacity-70"></li>
+                  <li className="cursor-pointer hover:opacity-70"></li>
+                </ul>
+              </nav>
+            </header>
+
+            <section className="banner pt-48 pb-8 lg:pb-20  w-full h-[108rem] ">
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 ">
+                <div className="text-right relative">
+                  <h1
+                    className="text-black font-poppins indent-[200px] tracking-tight text-5xl sm:text-6xl lg:text-[5rem] xl:text-8xl font-semibold leading-[4rem] sm:leading-[5rem] lg:leading-[6rem] xl:leading-[7rem]"
+                    style={{
+                      lineHeight: "1.2",
+                    }}
+                  >
+                    We shape brands,
+                    <br />
+                    visions and impact.
+                  </h1>
+                </div>
+              </div>
+            </section>
+            <section className="about py-20 h-[60rem]">
+              <div className="flex flex-col gap-20 xl:gap-48 max-w-7xl  mx-auto px-6 ">
+                <div className="">
+                  <h2 className="text-4xl text-white cursor-hover-target  md:text-5xl lg:text-6xl xl:text-7xl leading-12 md:leading-14 lg:leading-16 xl:leading-20 font-poppins font-bold">
+                    We merge ideas and intelligence to build powerful solutions
+                    that create new pathways.
+                  </h2>
+                </div>
+              </div>
+            </section>
+            <section className="services h-[60rem] py-20 "></section>
+            <section className="client h-[32rem] py-20"></section>
+            <footer className="  pt-14 lg:pt-20 xl:pt-24 2xl:pt-40 ">
+              <div className=" mx-auto px-6 max-w-7xl">
+                <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20 py-16 lg:py-20 xl:py-24 2xl:py-32">
+                  <div className="flex-1">
+                    <h2 className="text-8xl text-black lg:text-9xl cursor-hover-target  font-poppins  xl:text-[12rem] 2xl:text-[14rem] font-bold leading-none mb-12 lg:mb-16">
+                      AND GO!
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+        <GlobalCursor />
         {children}
       </body>
     </html>

@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-// import { ChevronRight } from "lucide-react";
+
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { useGSAP } from "@gsap/react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -65,7 +66,7 @@ export default function ServicesSection() {
     },
   ];
 
-  useEffect(() => {
+  useGSAP(() => {
     if (titleRef.current) {
       gsap.fromTo(
         titleRef.current,

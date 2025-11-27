@@ -5,7 +5,7 @@ const About = () => {
     <section className=" py-20  text-black ">
       <div className="flex flex-col gap-20 xl:gap-48 max-w-7xl  mx-auto px-6">
         <div>
-          <h2 className="text-4xl  md:text-5xl lg:text-6xl xl:text-7xl leading-12 md:leading-14 lg:leading-16 xl:leading-20 font-poppins font-bold">
+          <h2 className="text-4xl text-black cursor-hover-target  md:text-5xl lg:text-6xl xl:text-7xl leading-12 md:leading-14 lg:leading-16 xl:leading-20 font-poppins font-bold">
             We fuse creativity and technology to craft impactful designs that
             unlock fresh opportunities.
           </h2>

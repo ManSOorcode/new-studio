@@ -1,10 +1,11 @@
 "use client";
 import gsap from "gsap";
 import Image from "next/image";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Icon, { IconName } from "./social-icon";
 
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -102,7 +103,7 @@ const Banner = () => {
     setBannerId((prev) => prev + 1);
   };
 
-  useLayoutEffect(() => {
+  useGSAP(() => {
     if (!topTextWrapperRef.current) return;
 
     const topWrapper = topTextWrapperRef.current;
@@ -140,8 +141,8 @@ const Banner = () => {
       <div className="h-200 bg-[#2B2F31] absolute left-0 right-0 top-0  z-0"></div>
 
       <div className=" mx-auto max-w-7xl  relative flex flex-col gap-24 px-4 sm:px-6">
-        <div className="  text-right relative  ">
-          <h1 className="text-white  leading-16   sm:leading-20 lg:leading-24   xl:leading-28 font-poppins  indent-[200px] tracking-tight text-5xl sm:text-6xl lg:text-[5rem] xl:text-8xl font-semibold  z-[2]">
+        <div className="  text-right relative inline-block cursor-pointer  ">
+          <h1 className="text-white cursor-hover-target  leading-16   sm:leading-20 lg:leading-24   xl:leading-28 font-poppins  indent-[200px] tracking-tight text-5xl sm:text-6xl lg:text-[5rem] xl:text-8xl font-semibold  z-[2]">
             We craft identity,
             <br />
             experience and presence.
