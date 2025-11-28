@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import Icon, { IconName } from "./social-icon";
 
-import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/all";
+import { useLenis } from "./lenisScroll/useLenis";
 
-gsap.registerPlugin(ScrollToPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 interface SocialType {
   name: IconName;
@@ -20,6 +21,9 @@ const Banner = () => {
   const bottomTextWrapperRef = useRef<null>(null);
   const prevId = useRef(0);
   const bottomSectionRef = useRef<HTMLDivElement | null>(null);
+  const bannerRef = useRef<HTMLDivElement | null>(null);
+
+  const hasAnimated = useRef<boolean>(false);
 
   const bannerContents = [
     {
@@ -108,7 +112,6 @@ const Banner = () => {
 
     const topWrapper = topTextWrapperRef.current;
     const bottomWrapper = bottomTextWrapperRef.current;
-
     const rowHeight = 30;
 
     const ctx = gsap.context(() => {
@@ -124,25 +127,84 @@ const Banner = () => {
     });
 
     prevId.current = bannerId;
-
     return () => ctx.revert();
   }, [bannerId]);
 
+  const lenis = useLenis();
   const scrollBottomWithGsap = () => {
-    gsap.to(window, {
-      duration: 1,
-      scrollTo: bottomSectionRef.current!,
-      ease: "power2.out",
-    });
+    // gsap.to(window, {
+    //   duration: 1,
+    //   scrollTo: bottomSectionRef.current!,
+    //   ease: "power2.out",
+    // });
+
+    lenis?.scrollTo(bottomSectionRef.current as HTMLDivElement);
   };
 
+  useGSAP(() => {
+    if (!bannerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      if (!hasAnimated.current) {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        tl.from(".banner-heading", {
+          y: 80,
+          opacity: 0,
+          duration: 1.2,
+        })
+          .from(
+            ".banner-main-image",
+            {
+              scale: 1.15,
+              opacity: 0,
+              duration: 1.2,
+            },
+            "-=0.8"
+          )
+          .from(
+            ".banner-control-btn",
+            {
+              y: 40,
+              opacity: 0,
+              stagger: 0.15,
+              duration: 0.8,
+            },
+            "-=0.6"
+          );
+
+        hasAnimated.current = true;
+      }
+
+      ScrollTrigger.create({
+        trigger: bannerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress;
+
+          gsap.set(".banner-heading", {
+            y: -30 * progress,
+            opacity: Math.max(0.7, 1 - 0.3 * progress),
+          });
+        },
+        onLeaveBack: () => {
+          gsap.set(".banner-heading", { y: 0, opacity: 1 });
+        },
+      });
+    }, bannerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative pt-48 pb-8 lg:pb-20  w-full ">
+    <section ref={bannerRef} className="relative pt-48 pb-8 lg:pb-20  w-full ">
       <div className="h-200 bg-[#2B2F31] absolute left-0 right-0 top-0  z-0"></div>
 
       <div className=" mx-auto max-w-7xl  relative flex flex-col gap-24 px-4 sm:px-6">
         <div className="  text-right relative inline-block cursor-pointer  ">
-          <h1 className="text-white cursor-hover-target  leading-16   sm:leading-20 lg:leading-24   xl:leading-28 font-poppins  indent-[200px] tracking-tight text-5xl sm:text-6xl lg:text-[5rem] xl:text-8xl font-semibold  z-[2]">
+          <h1 className="text-white banner-heading cursor-hover-target  leading-16   sm:leading-20 lg:leading-24   xl:leading-28 font-poppins  indent-[200px] tracking-tight text-5xl sm:text-6xl lg:text-[5rem] xl:text-8xl font-semibold  z-[2]">
             We craft identity,
             <br />
             experience and presence.
@@ -214,12 +276,12 @@ const Banner = () => {
                     key={content.id}
                     className="relative w-full  h-full flex flex-col gap-4 lg:inline-block  shrink-0"
                   >
-                    <div className="relative w-full aspect-video">
+                    <div className="relative w-full aspect-video banner-main-image ">
                       {content.condition === "img" ? (
                         <Image
                           src={content.link}
                           alt={content.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                           width={1920}
                           height={1080}
                         />
@@ -229,7 +291,7 @@ const Banner = () => {
                           playsInline
                           muted
                           autoPlay
-                          className="w-full h-full  object-cover"
+                          className="w-full h-full  object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                         />
                       )}
                     </div>
@@ -281,12 +343,12 @@ const Banner = () => {
                   {bannerContents.map((content) => (
                     <div
                       key={content.id}
-                      className="relative w-full aspect-[3/4] shrink-0"
+                      className="relative w-full banner-main-image aspect-[3/4] shrink-0"
                     >
                       <Image
                         src={content.otherSlider.sliderTwoLink}
                         alt={content.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                         width={800}
                         height={1000}
                       />
@@ -299,16 +361,16 @@ const Banner = () => {
                   className="flex transition-transform duration-700 ease-in-out "
                   style={{ transform: `translateX(-${bannerId * 100}%)` }}
                 >
-                  {bannerContents.map((content, i) => (
+                  {bannerContents.map((content) => (
                     <div
                       key={content.id}
-                      className="relative w-full aspect-[3/4] shrink-0"
+                      className="relative w-full aspect-[3/4] banner-main-image shrink-0"
                     >
                       {content.otherSlider.sliderThreeCondition === "img" ? (
                         <Image
                           src={content.otherSlider.sliderThreeLink}
                           alt={content.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                           width={800}
                           height={1000}
                         />
@@ -318,7 +380,7 @@ const Banner = () => {
                           playsInline
                           muted
                           autoPlay
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover hover:scale-105 transition-all duration-300 ease-in-out"
                         />
                       )}
                     </div>

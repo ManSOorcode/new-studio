@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -10,6 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const contactInfoRef = useRef<HTMLDivElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const socialRef = useRef<HTMLDivElement>(null);
 
   const navigationLinks: string[] = ["Studio", "Services", "Works", "Contact"];
 
@@ -19,42 +23,185 @@ const Footer = () => {
     { name: "WhatsApp", url: "#", icon: "whatsapp" },
   ];
 
-  useGSAP(() => {
-    if (titleRef.current) {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 100 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }
-  }, []);
+  //   useGSAP(() => {
+  //     if (!footerRef.current) return;
 
+  //     const ctx = gsap.context(() => {
+  //       // Title animation
+  //       gsap.from(titleRef.current, {
+  //         y: 100,
+  //         opacity: 0,
+  //         duration: 1.2,
+  //         ease: "power3.out",
+  //         scrollTrigger: {
+  //           trigger: titleRef.current,
+  //           start: "top 70%",
+  //           toggleActions: "play none none none",
+  //           once: true,
+  //         },
+  //       });
+
+  //       // Contact info animation
+  //       gsap.from(contactInfoRef.current, {
+  //         y: 60,
+  //         opacity: 0,
+  //         duration: 1,
+  //         ease: "power3.out",
+  //         delay: 0.2,
+  //         scrollTrigger: {
+  //           trigger: contactInfoRef.current,
+  //           start: "top 70%",
+  //           toggleActions: "play none none none",
+  //           once: true,
+  //         },
+  //       });
+
+  //       // Phone section animation
+  //       gsap.from(phoneRef.current, {
+  //         y: 60,
+  //         opacity: 0,
+  //         duration: 1,
+  //         ease: "power3.out",
+  //         delay: 0.3,
+  //         scrollTrigger: {
+  //           trigger: phoneRef.current,
+  //           start: "top 70%",
+  //           toggleActions: "play none none none",
+  //           once: true,
+  //         },
+  //       });
+
+  //       // Navigation links animation
+  //       if (navRef.current) {
+  //         const navItems = navRef.current.querySelectorAll("li");
+  //         gsap.from(navItems, {
+  //           y: 30,
+  //           opacity: 0,
+  //           duration: 0.8,
+  //           stagger: 0.1,
+  //           ease: "power3.out",
+  //           scrollTrigger: {
+  //             trigger: navRef.current,
+  //             start: "top 75%",
+  //             toggleActions: "play none none none",
+  //             once: true,
+  //           },
+  //         });
+  //       }
+
+  //       // Social links animation
+  //       if (socialRef.current) {
+  //         const socialItems = socialRef.current.querySelectorAll("a");
+  //         gsap.from(socialItems, {
+  //           y: 30,
+  //           opacity: 0,
+  //           duration: 0.8,
+  //           stagger: 0.1,
+  //           ease: "power3.out",
+  //           scrollTrigger: {
+  //             trigger: socialRef.current,
+  //             start: "top 75%",
+  //             toggleActions: "play none none none",
+  //             once: true,
+  //           },
+  //         });
+  //       }
+  //     }, footerRef);
+
+  //     return () => ctx.revert();
+  //   }, []);
+
+  useGSAP(() => {
+    if (!footerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top 85%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      });
+
+      tl.from(titleRef.current, {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out",
+      });
+
+      tl.from(
+        contactInfoRef.current,
+        {
+          y: 60,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+        },
+        "-=1"
+      );
+
+      tl.from(
+        phoneRef.current,
+        {
+          y: 60,
+          opacity: 0,
+          duration: 1,
+          ease: "power3.out",
+        },
+        "-=0.9"
+      );
+
+      if (navRef.current) {
+        const navItems = navRef.current.querySelectorAll("li");
+        tl.from(
+          navItems,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+          },
+          "-=0.5"
+        );
+      }
+
+      if (socialRef.current) {
+        const socialItems = socialRef.current.querySelectorAll("a");
+        tl.from(
+          socialItems,
+          {
+            y: 30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power3.out",
+          },
+          "-=0.6"
+        );
+      }
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
   return (
     <footer
       ref={footerRef}
-      className="bg-black text-white pt-14 lg:pt-20 xl:pt-24 2xl:pt-40 "
+      className="bg-black text-white pt-14 lg:pt-20 xl:pt-24 2xl:pt-40"
     >
-      <div className=" mx-auto px-6 max-w-7xl">
+      <div className="mx-auto px-6 max-w-7xl">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-20 py-16 lg:py-20 xl:py-24 2xl:py-32">
-          <div className="flex-1">
+          <div className="flex-1 relative">
             <h2
               ref={titleRef}
-              className="text-8xl lg:text-9xl cursor-hover-target  font-poppins  xl:text-[12rem] 2xl:text-[14rem] font-bold leading-none mb-12 lg:mb-16"
+              className="text-8xl lg:text-9xl cursor-hover-target font-poppins xl:text-[12rem] 2xl:text-[14rem] font-bold leading-none mb-12 lg:mb-16"
             >
               SAY HI!
             </h2>
 
-            <div className="space-y-2">
+            <div ref={contactInfoRef} className="space-y-2">
               <p className="text-lg font-semibold text-white">
                 Tell us about your project.
               </p>
@@ -64,7 +211,10 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 lg:self-start lg:pt-4">
+          <div
+            ref={phoneRef}
+            className="flex items-center gap-4 lg:self-start lg:pt-4"
+          >
             <svg
               className="w-5 h-5 text-white"
               fill="none"
@@ -90,10 +240,10 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/10 "></div>
+        <div className="border-t border-white/10"></div>
 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 py-16">
-          <nav className="">
+          <nav ref={navRef}>
             <ul className="flex flex-wrap gap-8 md:gap-16 font-inter text-sm">
               {navigationLinks.map((link: string) => (
                 <li key={link}>
@@ -108,7 +258,7 @@ const Footer = () => {
             </ul>
           </nav>
 
-          <div className="flex gap-6">
+          <div ref={socialRef} className="flex gap-6">
             {socialLinks.map(
               (item: { name: string; url: string; icon: string }) => (
                 <a
