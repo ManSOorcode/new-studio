@@ -5,6 +5,7 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 
 import GlobalCursor from "./components/GlobalCursor";
+import SmoothScroll from "./components/lenisScroll/SmoothScroll";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -105,7 +106,7 @@ export default function RootLayout({
           </div>
         </div>
         <GlobalCursor />
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
